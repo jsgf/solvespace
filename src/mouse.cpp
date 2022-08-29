@@ -1429,9 +1429,15 @@ void GraphicsWindow::EditControlDone(const std::string &s) {
         return;
     }
 
-    if(Expr *e = Expr::From(s, true)) {
-        SS.UndoRemember();
+    int usedParams;
+    Expr *e = Expr::From(s, true, &SK.param, &usedParams);
 
+    if(e) {
+        SS.UndoRemember();
+        if(usedParams > 0) {
+          c->expression = s;
+        }
+        
         switch(c->type) {
             case Constraint::Type::PROJ_PT_DISTANCE:
             case Constraint::Type::PT_LINE_DISTANCE:
