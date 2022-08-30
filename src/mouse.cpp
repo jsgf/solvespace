@@ -1511,6 +1511,24 @@ void GraphicsWindow::SixDofEvent(Platform::SixDofEvent event) {
     }
 
     if(!havePainted) return;
+    dbp("6dof rot (%g, %g, %g) trans (%g, %g, %g)",
+        event.rotationX,
+        event.rotationY,
+        event.rotationY,
+        event.translationX,
+        event.translationY,
+        event.translationZ);
+
+    const double k6dofrotscale = 4.0;
+    const double k6doftransscale = 2.0;
+
+    event.rotationX /= k6dofrotscale;
+    event.rotationY /= k6dofrotscale;
+    event.rotationY /= k6dofrotscale;
+    event.translationX /= k6doftransscale;
+    event.translationY /= k6doftransscale;
+    event.translationZ /= k6doftransscale;
+
     Vector out = projRight.Cross(projUp);
 
     // rotation vector is axis of rotation, and its magnitude is angle
